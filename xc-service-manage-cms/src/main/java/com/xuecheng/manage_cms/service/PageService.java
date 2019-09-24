@@ -58,7 +58,7 @@ public class PageService {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    public QueryResponseResult findList(int page,int size, QueryPageRequest queryPageRequest) {
+    public QueryResponseResult findList(int page, int size, QueryPageRequest queryPageRequest) {
 
         if (queryPageRequest == null) {
             queryPageRequest = new QueryPageRequest();

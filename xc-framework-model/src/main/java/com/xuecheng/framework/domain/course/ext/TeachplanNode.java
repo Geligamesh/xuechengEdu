@@ -14,5 +14,4 @@ import java.util.List;
 public class TeachplanNode extends Teachplan {
 
     List<TeachplanNode> children;
-
 }

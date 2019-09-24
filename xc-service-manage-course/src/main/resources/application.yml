@@ -3,6 +3,10 @@ server:
 spring:
   application:
     name: xc-service-manage-course
+  data:
+    mongodb:
+      uri:  mongodb://root:root@localhost:27017
+      database: xc_cms
   datasource:
     druid:
       url: jdbc:mysql://localhost:3306/xc_course?characterEncoding=utf-8
@@ -17,3 +21,5 @@ spring:
       testOnReturn: false #归还连接时检测连接是否有效
       timeBetweenEvictionRunsMillis: 60000 #配置间隔检测连接是否有效的时间（单位是毫秒）
       minEvictableIdleTimeMillis: 300000  #连接在连接池的最小生存时间（毫秒）
+pagehelper:
+  helper-dialect: mysql

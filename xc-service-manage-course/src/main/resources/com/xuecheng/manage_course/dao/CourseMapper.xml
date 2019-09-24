@@ -5,4 +5,15 @@
             resultType="com.xuecheng.framework.domain.course.CourseBase">
         select * from course_base where id = #{id}
     </select>
+
+    <select id="findCourseListPage" resultType="com.xuecheng.framework.domain.course.ext.CourseInfo"
+            parameterType="com.xuecheng.framework.domain.course.request.CourseListRequest"
+    >
+        SELECT
+            b.*,
+            p.pic
+        FROM
+            course_base b
+            LEFT JOIN course_pic p ON b.id = p.courseid
+    </select>
 </mapper>
