@@ -8,6 +8,7 @@ import com.xuecheng.framework.domain.course.ext.CourseInfo;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.AddCourseResult;
+import com.xuecheng.framework.domain.course.response.CourseCode;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
@@ -134,5 +135,31 @@ public class CourseService {
         courseBase.setStatus("202002");
         courseBaseRepository.save(courseBase);
         return new AddCourseResult(CommonCode.SUCCESS,courseBase.getId());
+    }
+
+    //根据课程id获取课程信息
+    public CourseBase getCourseBaseById(String courseId) {
+        Optional<CourseBase> optional = courseBaseRepository.findById(courseId);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        return null;
+    }
+
+    //更新课程id更新课程信息
+    public ResponseResult updateCourseBase(String id,CourseBase courseBase) {
+        CourseBase one = this.getCourseBaseById(id);
+        if (one == null) {
+            ExceptionCast.cast(CourseCode.COURSE_PUBLISH_COURSEIDISNULL);
+        }
+        one.setName(courseBase.getName());
+        one.setUsers(courseBase.getUsers());
+        one.setMt(courseBase.getMt());
+        one.setSt(courseBase.getSt());
+        one.setGrade(courseBase.getGrade());
+        one.setStudymodel(courseBase.getStudymodel());
+        one.setDescription(courseBase.getDescription());
+        courseBaseRepository.save(one);
+        return ResponseResult.SUCCESS();
     }
 }
