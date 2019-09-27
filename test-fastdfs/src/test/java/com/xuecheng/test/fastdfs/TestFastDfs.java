@@ -58,7 +58,7 @@ public class TestFastDfs {
             StorageClient1 storageClient1 = new StorageClient1(trackerServer,storeStorage);
             byte[] bytes = storageClient1.download_file1("group1/M00/00/00/wKhlgF2MZGeALcZpAAZ50iLUdh0716.png");
             //使用输出流保存文件
-            OutputStream outputStream = new FileOutputStream(new File("d:image.png"));
+            OutputStream outputStream = new FileOutputStream(new File("e:/image.png"));
             outputStream.write(bytes);
         }catch (Exception e) {
             e.printStackTrace();
