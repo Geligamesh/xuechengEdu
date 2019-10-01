@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;
 
@@ -25,6 +24,7 @@ public class CmsPagePreviewController extends BaseController {
         if (StringUtils.isNotEmpty(pageHtml)) {
             try {
                 ServletOutputStream outputStream = response.getOutputStream();
+                response.setHeader("Content-type","text/html;charset=utf-8");
                 outputStream.write(pageHtml.getBytes("utf-8"));
             } catch (IOException e) {
                 e.printStackTrace();

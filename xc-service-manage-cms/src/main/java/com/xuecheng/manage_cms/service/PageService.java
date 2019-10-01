@@ -6,15 +6,18 @@ import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.xuecheng.framework.domain.cms.CmsConfig;
 import com.xuecheng.framework.domain.cms.CmsPage;
+import com.xuecheng.framework.domain.cms.CmsSite;
 import com.xuecheng.framework.domain.cms.CmsTemplate;
 import com.xuecheng.framework.domain.cms.request.QueryPageRequest;
 import com.xuecheng.framework.domain.cms.response.CmsCode;
 import com.xuecheng.framework.domain.cms.response.CmsPageResult;
+import com.xuecheng.framework.domain.cms.response.CmsPostPageResult;
 import com.xuecheng.framework.exception.ExceptionCast;
 import com.xuecheng.framework.model.response.*;
 import com.xuecheng.manage_cms.config.RabbitmqConfig;
 import com.xuecheng.manage_cms.dao.CmsConfigRepository;
 import com.xuecheng.manage_cms.dao.CmsPageRepository;
+import com.xuecheng.manage_cms.dao.CmsSiteRepository;
 import com.xuecheng.manage_cms.dao.CmsTemplateRepository;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
@@ -57,6 +60,8 @@ public class PageService {
     private GridFSBucket gridFSBucket;
     @Autowired
     private RabbitTemplate rabbitTemplate;
+    @Autowired
+    private CmsSiteRepository cmsSiteRepository;
 
     public QueryResponseResult findList(int page, int size, QueryPageRequest queryPageRequest) {
 
@@ -147,9 +152,13 @@ public class PageService {
     public CmsPageResult update(String id,CmsPage cmsPage) {
         CmsPage result = this.getById(id);
         if (result!=null) {
-            String pageId = result.getPageId();
-            BeanUtils.copyProperties(cmsPage, result);
-            result.setPageId(pageId);
+            result.setTemplateId(cmsPage.getTemplateId());
+            result.setSiteId(cmsPage.getSiteId());
+            result.setPageAliase(cmsPage.getPageAliase());
+            result.setPageName(cmsPage.getPageName());
+            result.setPageWebPath(cmsPage.getPageWebPath());
+            result.setPagePhysicalPath(cmsPage.getPagePhysicalPath());
+            result.setDataUrl(cmsPage.getDataUrl());
             cmsPageRepository.save(result);
             return new CmsPageResult(CommonCode.SUCCESS, result);
         }
@@ -323,5 +332,50 @@ public class PageService {
         cmsPage.setHtmlFileId(objectId.toString());
         cmsPageRepository.save(cmsPage);
         return cmsPage;
+    }
+
+    //保存页面，有则更新，没有则添加
+    public CmsPageResult save(CmsPage cmsPage) {
+        if (cmsPage == null) {
+            ExceptionCast.cast(CmsCode.CMS_GENERATEHTML_TEMPLATEISNULL);
+        }
+        //判断要保存的页面是否存在
+        CmsPage newCmsPage = cmsPageRepository.findByPageNameAndSiteIdAndPageWebPath(cmsPage.getPageName(), cmsPage.getSiteId(), cmsPage.getPageWebPath());
+        if (newCmsPage != null) {
+            //需要保存的页面存在则更新页面
+            return this.update(newCmsPage.getPageId(), cmsPage);
+        }
+        //如果不存在则添加压面
+        return this.add(cmsPage);
+    }
+
+    //一键发布页面
+    public CmsPostPageResult postPageQuick(CmsPage cmsPage) {
+        //将页面信息存储到cms_page中
+        CmsPageResult cmsPageResult = this.save(cmsPage);
+        if (!cmsPageResult.isSuccess()) {
+            ExceptionCast.cast(CommonCode.FAIL);
+        }
+        //得到页面id
+        CmsPage resultCmsPage = cmsPageResult.getCmsPage();
+        String pageId = resultCmsPage.getPageId();
+        //执行页面静态化（先静态化，再保存到GridFS中，再想MQ发送消息）
+        ResponseResult post = this.post(pageId);
+        if (!post.isSuccess()) {
+            ExceptionCast.cast(CommonCode.FAIL);
+        }
+        //拼装Url = cmsSite.siteDomain+cmsSite.siteWebPath+ cmsPage.pageWebPath + cmsPage.pageName
+        //得到站点id
+        String siteId = resultCmsPage.getSiteId();
+        //根据站点id获取站点信息
+        CmsSite cmsSite = this.findCmsSiteById(siteId);
+        //返回pageUrl
+        String pageUrl = cmsSite.getSiteDomain() + cmsSite.getSiteWebPath() + resultCmsPage.getPageWebPath() + resultCmsPage.getPageName();
+        return new CmsPostPageResult(CommonCode.SUCCESS, pageUrl);
+    }
+
+    private CmsSite findCmsSiteById(String siteId) {
+        Optional<CmsSite> siteOptional = cmsSiteRepository.findById(siteId);
+        return siteOptional.orElse(null);
     }
 }

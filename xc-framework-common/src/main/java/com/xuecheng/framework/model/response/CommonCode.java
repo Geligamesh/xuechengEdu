@@ -1,14 +1,7 @@
 package com.xuecheng.framework.model.response;
 
-import com.google.common.collect.ImmutableMap;
 import lombok.ToString;
 
-/**
- * @Author: mrt.
- * @Description:
- * @Date:Created in 2018/1/24 18:33.
- * @Modified By:
- */
 
 @ToString
 public enum CommonCode implements ResultCode{
@@ -19,6 +12,7 @@ public enum CommonCode implements ResultCode{
     FAIL(false,11111,"操作失败！"),
     UNAUTHENTICATED(false,10001,"此操作需要登陆系统！"),
     UNAUTHORISE(false,10002,"权限不足，无权操作！"),
+    COUSRSE_DENIED_DELETE(false,10005,""),
     SERVER_ERROR(false,99999,"抱歉，系统繁忙，请稍后重试！");
 
    // private static ImmutableMap<Integer, CommonCode> codes ;

@@ -60,9 +60,9 @@ public class PageServiceTest {
     //存文件
     @Test
     public void testGridFsTemplate() throws FileNotFoundException {
-        File file = new File("e:/index_banner.ftl");
+        File file = new File("e:/course.ftl");
         FileInputStream inputStream = new FileInputStream(file);
-        ObjectId objectId = gridFsTemplate.store(inputStream, "index_banner.ftl");
+        ObjectId objectId = gridFsTemplate.store(inputStream, "course.ftl");
         System.out.println(objectId);
     }
 
