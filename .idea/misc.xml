@@ -20,6 +20,7 @@
         <option value="$PROJECT_DIR$/test-fastdfs/pom.xml" />
         <option value="$PROJECT_DIR$/xc-service-base-filesystem/pom.xml" />
         <option value="$PROJECT_DIR$/xc-govern-center/pom.xml" />
+        <option value="$PROJECT_DIR$/xc-service-search/pom.xml" />
       </list>
     </option>
   </component>
