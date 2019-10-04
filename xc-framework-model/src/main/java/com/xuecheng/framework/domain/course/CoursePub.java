@@ -3,14 +3,10 @@ package com.xuecheng.framework.domain.course;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by admin on 2018/2/10.
- */
 @Data
 @ToString
 @Entity
@@ -35,8 +31,8 @@ public class CoursePub implements Serializable {
     private String charge;
     private String valid;
     private String qq;
-    private Float price;
-    private Float price_old;
+    private Double price;
+    private Double price_old;
     private String expires;
     private String teachplan;//课程计划
     @Column(name="pub_time")

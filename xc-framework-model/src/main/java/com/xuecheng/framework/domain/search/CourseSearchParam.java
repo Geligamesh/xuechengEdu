@@ -2,15 +2,12 @@ package com.xuecheng.framework.domain.search;
 
 import lombok.Data;
 import lombok.ToString;
-
 import java.io.Serializable;
 
-/**
- * Created by admin on 2018/2/18.
- */
 @Data
 @ToString
 public class CourseSearchParam implements Serializable {
+
     //关键字
     String keyword;
     //一级分类
