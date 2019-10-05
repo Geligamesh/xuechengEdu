@@ -4,15 +4,8 @@ import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.Date;
 
-/**
- * @Author: mrt.
- * @Description:
- * @Date:Created in 2018/1/24 10:04.
- * @Modified By:
- */
 @Data
 @ToString
 @Document(collection = "media_file")
@@ -45,7 +38,6 @@ public class MediaFile {
     private String processStatus;
     //hls处理
     private MediaFileProcess_m3u8 mediaFileProcess_m3u8;
-
     //tag标签用于查询
     private String tag;
 
