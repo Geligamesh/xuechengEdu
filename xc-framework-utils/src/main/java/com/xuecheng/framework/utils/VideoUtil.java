@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class VideoUtil {
 
-    String ffmpeg_path = "D:\\Program Files\\ffmpeg-20180227-fa0c9d6-win64-static\\bin\\ffmpeg.exe";//ffmpeg的安装位置
+    private String ffmpeg_path;//ffmpeg的安装位置
 
     public VideoUtil(String ffmpeg_path){
         this.ffmpeg_path = ffmpeg_path;
@@ -41,7 +41,7 @@ public class VideoUtil {
         /*
         ffmpeg -i  lucene.mp4
          */
-        List<String> commend = new ArrayList<String>();
+        List<String> commend = new ArrayList<>();
         commend.add(ffmpeg_path);
         commend.add("-i");
         commend.add(video_path);

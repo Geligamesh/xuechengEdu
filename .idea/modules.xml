@@ -16,6 +16,7 @@
       <module fileurl="file://$PROJECT_DIR$/xc-service-manage-cms/xc-service-manage-cms.iml" filepath="$PROJECT_DIR$/xc-service-manage-cms/xc-service-manage-cms.iml" />
       <module fileurl="file://$PROJECT_DIR$/xc-service-manage-course/xc-service-manage-course.iml" filepath="$PROJECT_DIR$/xc-service-manage-course/xc-service-manage-course.iml" />
       <module fileurl="file://$PROJECT_DIR$/xc-service-manage-media/xc-service-manage-media.iml" filepath="$PROJECT_DIR$/xc-service-manage-media/xc-service-manage-media.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xc-service-manage-media-processor/xc-service-manage-media-processor.iml" filepath="$PROJECT_DIR$/xc-service-manage-media-processor/xc-service-manage-media-processor.iml" />
       <module fileurl="file://$PROJECT_DIR$/xc-service-search/xc-service-search.iml" filepath="$PROJECT_DIR$/xc-service-search/xc-service-search.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/xcEduServer.iml" filepath="$PROJECT_DIR$/.idea/xcEduServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/xc‐service‐manage‐cms‐client/xc‐service‐manage‐cms‐client.iml" filepath="$PROJECT_DIR$/xc‐service‐manage‐cms‐client/xc‐service‐manage‐cms‐client.iml" />
