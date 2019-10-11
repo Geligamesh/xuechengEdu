@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +52,10 @@ public class CourseService {
     private CourseMarketRepository courseMarketRepository;
     @Autowired
     private CmsPageClient cmsPageClient;
+    @Autowired
+    private TeachplanMediaRepository teachplanMediaRepository;
+    @Autowired
+    private TeachplanMediaPubRepository teachplanMediaPubRepository;
     @Autowired
     private CoursePubRepository coursePubRepository;
     @Value("${course-publish.dataUrlPre}")
@@ -326,6 +331,8 @@ public class CourseService {
         this.saveCoursePub(courseId, coursePub);
 
         //缓存课程的信息...
+        //将课程计划媒资信息存储到索引表
+        this.saveTeachplanMediaPub(courseId);
 
         //获得url
         String pageUrl = cmsPostPageResult.getPageUrl();
@@ -393,5 +400,61 @@ public class CourseService {
         courseBase.setStatus("202002");
         courseBaseRepository.save(courseBase);
         return courseBase;
+    }
+
+    //保存课程计划与媒资文件的关联信息
+    public ResponseResult savemedia(TeachplanMedia teachplanMedia) {
+        //判断关联信息和课程计划是否为空
+        if (teachplanMedia == null || StringUtils.isEmpty(teachplanMedia.getTeachplanId())) {
+            ExceptionCast.cast(CommonCode.INVAILD_PARAM);
+        }
+        //课程计划id
+        String teachplanId = teachplanMedia.getTeachplanId();
+        //从数据库查询课程计划信息
+        Optional<Teachplan> teachplanOptional = teachplanRepository.findById(teachplanId);
+        if (!teachplanOptional.isPresent()) {
+            ExceptionCast.cast(CommonCode.INVAILD_PARAM);
+        }
+        Teachplan teachplan = teachplanOptional.get();
+        //获取课程等级
+        String grade = teachplan.getGrade();
+        if (StringUtils.isEmpty(grade) || !grade.equals("3")) {
+            //只允许第三级的课程计划和视频关联
+            ExceptionCast.cast(CourseCode.COURSE_MEDIA_TEACHPLAN_GRADEERROR);
+        }
+        Optional<TeachplanMedia> teachplanMediaOptional = teachplanMediaRepository.findById(teachplanId);
+        TeachplanMedia result;
+        if (teachplanMediaOptional.isPresent()) {
+            result = teachplanMediaOptional.get();
+        }else {
+            result = new TeachplanMedia();
+        }
+        result.setTeachplanId(teachplanId);
+        result.setCourseId(teachplanMedia.getCourseId());
+        result.setMediaUrl(teachplanMedia.getMediaUrl());
+        result.setMediaId(teachplanMedia.getMediaId());
+        result.setMediaFileOriginalName(teachplanMedia.getMediaFileOriginalName());
+        //将关联信息保存到数据库
+        teachplanMediaRepository.save(result);
+
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
+
+    //保存课程计划媒资信息
+    private void saveTeachplanMediaPub(String courseId) {
+        //根据课程id查询课程计划媒资信息
+        List<TeachplanMedia> teachplanMediaList = teachplanMediaRepository.findByCourseId(courseId);
+        //根据课程id删除课程计划媒资信息
+        teachplanMediaPubRepository.deleteByCourseId(courseId);
+
+        //将课程计划媒资信息存储到索引表
+        List<TeachplanMediaPub> teachplanMediaPubList = new ArrayList<>();
+        for (TeachplanMedia teachplanMedia : teachplanMediaList) {
+            TeachplanMediaPub teachplanMediaPub = new TeachplanMediaPub();
+            BeanUtils.copyProperties(teachplanMedia, teachplanMediaPub);
+            teachplanMediaPub.setTimestamp(new Date());
+            teachplanMediaPubList.add(teachplanMediaPub);
+        }
+        teachplanMediaPubRepository.saveAll(teachplanMediaPubList);
     }
 }

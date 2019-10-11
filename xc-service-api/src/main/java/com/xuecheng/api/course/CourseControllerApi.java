@@ -1,9 +1,6 @@
 package com.xuecheng.api.course;
 
-import com.xuecheng.framework.domain.course.CourseBase;
-import com.xuecheng.framework.domain.course.CourseMarket;
-import com.xuecheng.framework.domain.course.CoursePic;
-import com.xuecheng.framework.domain.course.Teachplan;
+import com.xuecheng.framework.domain.course.*;
 import com.xuecheng.framework.domain.course.ext.CourseView;
 import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
@@ -58,4 +55,7 @@ public interface CourseControllerApi {
 
     @ApiOperation("课程发布")
     CoursePublishResult publish(String courseId);
+
+    @ApiOperation("保存课程计划与媒资文件的关联")
+    ResponseResult savemedia(TeachplanMedia teachplanMedia);
 }

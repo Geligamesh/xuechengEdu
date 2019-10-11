@@ -5,13 +5,14 @@ import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 @ToString
 @Entity
-@Table(name="teachplan_media")
+@Table(name="teachplan_media_pub")
 @GenericGenerator(name = "jpa-assigned", strategy = "assigned")
-public class TeachplanMedia implements Serializable {
+public class TeachplanMediaPub implements Serializable {
 
     private static final long serialVersionUID = -916357110051689485L;
 
@@ -32,4 +33,6 @@ public class TeachplanMedia implements Serializable {
     @Column(name = "courseid")
     private String courseId;
 
+    @Column(name = "timestamp")
+    private Date timestamp;//时间戳
 }
