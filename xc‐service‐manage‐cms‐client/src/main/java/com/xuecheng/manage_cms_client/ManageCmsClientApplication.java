@@ -13,4 +13,5 @@ public class ManageCmsClientApplication {
     public static void main(String[] args) {
         SpringApplication.run(ManageCmsClientApplication.class,args);
     }
+
 }

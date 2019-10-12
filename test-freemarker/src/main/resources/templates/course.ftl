@@ -191,6 +191,7 @@
                                         <ul class="list-box">
                                             <#list firstNode.children as secondNode>
                                                 <li>${secondNode.pname}</li>
+                                                <#--<li><a href="http://ucenter.xuecheng.com/#/learning/${courseBase.id}/${secondNode.id}"></a></li>-->
                                             </#list>
                                         </ul>
                                     </div>

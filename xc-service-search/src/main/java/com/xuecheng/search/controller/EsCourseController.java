@@ -7,7 +7,6 @@ import com.xuecheng.framework.domain.search.CourseSearchParam;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.QueryResult;
 import com.xuecheng.search.service.EsCourseService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,6 +47,7 @@ public class EsCourseController implements EsCourseControllerApi {
             if (list != null && list.size() > 0) {
                 return list.get(0);
             }
+
         }
         return new TeachplanMediaPub();
     }

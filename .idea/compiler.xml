@@ -22,6 +22,7 @@
         <module name="xc-service-manage-media" />
         <module name="xc-service-manage-media-processor" />
         <module name="xc-service-search" />
+        <module name="xc-service-ucenter-auth" />
         <module name="xc‐service‐manage‐cms‐client" />
       </profile>
     </annotationProcessing>
@@ -43,6 +44,7 @@
       <module name="xc-service-manage-media" target="1.8" />
       <module name="xc-service-manage-media-processor" target="1.8" />
       <module name="xc-service-search" target="1.8" />
+      <module name="xc-service-ucenter-auth" target="1.8" />
       <module name="xc‐service‐manage‐cms‐client" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -64,6 +66,7 @@
       <module name="xc-service-manage-media" options="-parameters" />
       <module name="xc-service-manage-media-processor" options="-parameters" />
       <module name="xc-service-search" options="-parameters" />
+      <module name="xc-service-ucenter-auth" options="-parameters" />
       <module name="xc‐service‐manage‐cms‐client" options="-parameters" />
     </option>
   </component>
