@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
 import org.springframework.stereotype.Component;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -24,7 +23,7 @@ public class CustomUserAuthenticationConverter extends DefaultUserAuthentication
         response.put("user_name", name);
 
         Object principal = authentication.getPrincipal();
-        UserJwt userJwt = null;
+        UserJwt userJwt;
         if(principal instanceof  UserJwt){
             userJwt = (UserJwt) principal;
         }else{
@@ -40,7 +39,6 @@ public class CustomUserAuthenticationConverter extends DefaultUserAuthentication
         if (authentication.getAuthorities() != null && !authentication.getAuthorities().isEmpty()) {
             response.put("authorities", AuthorityUtils.authorityListToSet(authentication.getAuthorities()));
         }
-
         return response;
     }
 
