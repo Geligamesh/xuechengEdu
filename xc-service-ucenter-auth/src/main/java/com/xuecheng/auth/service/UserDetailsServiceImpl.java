@@ -23,7 +23,7 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    ClientDetailsService clientDetailsService;
+    private ClientDetailsService clientDetailsService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -60,8 +60,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //        user_permission.add("course_get_baseinfo");
 //        user_permission.add("course_find_pic");
         String user_permission_string  = StringUtils.join(user_permission.toArray(), ",");
-        UserJwt userDetails = new UserJwt(username,
-                password,
+        UserJwt userDetails = new UserJwt(username, password,
                 AuthorityUtils.commaSeparatedStringToAuthorityList(user_permission_string));
         userDetails.setId(userext.getId());
         userDetails.setUtype(userext.getUtype());//用户类型

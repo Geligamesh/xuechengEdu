@@ -53,6 +53,7 @@ public class AuthController implements AuthControllerApi {
         String access_token = authToken.getAccess_token();
         //将令牌存储到cookie
         this.saveCookie(access_token);
+
         return new LoginResult(CommonCode.SUCCESS, access_token);
     }
 
