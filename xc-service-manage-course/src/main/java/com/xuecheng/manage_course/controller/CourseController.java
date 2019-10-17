@@ -12,6 +12,7 @@ import com.xuecheng.framework.model.response.ResponseResult;
 import com.xuecheng.manage_course.service.CourseMarketService;
 import com.xuecheng.manage_course.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,7 +24,9 @@ public class CourseController implements CourseControllerApi {
     @Autowired
     private CourseMarketService courseMarketService;
 
+    //当用户拥有这个course_teachplan_list权限的时候方可访问此方法
     @Override
+    @PreAuthorize(value = "hasAuthority('course_teachplan_list')")
     @GetMapping("teachplan/list/{courseId}")
     public TeachplanNode findTeachplanList(@PathVariable("courseId") String courseId) {
         return courseService.findTeachplanList(courseId);
@@ -31,11 +34,13 @@ public class CourseController implements CourseControllerApi {
 
     @Override
     @PostMapping("teachplan/add")
+    @PreAuthorize(value = "hasAuthority('course_teachplan_add')")
     public ResponseResult addTeachplan(@RequestBody Teachplan teachplan) {
         return courseService.addTeachplan(teachplan);
     }
 
     @Override
+    @PreAuthorize(value = "hasAuthority('course_find_list')")
     @GetMapping("coursebase/list/{page}/{size}")
     public QueryResponseResult findCourseList(@PathVariable("page") int page,
                                               @PathVariable("size") int size,
@@ -86,6 +91,7 @@ public class CourseController implements CourseControllerApi {
 
     @Override
     @GetMapping("coursepic/list/{courseId}")
+    @PreAuthorize(value = "hasAuthority('course_find_pic')")
     public CoursePic findCoursePic(@PathVariable("courseId") String courseId) {
         return courseService.findCoursePic(courseId);
     }
