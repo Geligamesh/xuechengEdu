@@ -13,6 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.jwt.crypto.sign.RsaSigner;
@@ -88,4 +89,22 @@ public class TestClient {
         byte[] encode = Base64Utils.encode(string.getBytes());
         return "Basic " + new String(encode);
     }
+
+    @Test
+    public void testPasswordEncode() {
+        String password = "111111";
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        // for (int i = 0; i < 10; i++) {
+        //     String encode = bCryptPasswordEncoder.encode(password);
+        //     System.out.println(encode);
+        //
+        //     boolean matches = bCryptPasswordEncoder.matches(password, encode);
+        //     System.out.println(matches);
+        // }
+        boolean matches = bCryptPasswordEncoder.matches(password, "$2a$10$TJ4TmCdK.X4wv/tCqHW14.w70U3CC33CeVncD3SLmyMXMknstqKRe");
+        System.out.println(matches);
+    }
+
+
+
 }
