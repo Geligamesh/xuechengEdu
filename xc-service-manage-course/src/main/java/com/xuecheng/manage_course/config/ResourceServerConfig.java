@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
-
 @Configuration
 //定义一个资源服务器
 @EnableResourceServer
