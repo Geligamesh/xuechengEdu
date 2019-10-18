@@ -8,9 +8,6 @@ import org.springframework.security.jwt.JwtHelper;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-/**
- * Created by mrt on 2018/5/25.
- */
 public class Oauth2Util {
 
     public static Map<String,String> getJwtClaimsFromHeader(HttpServletRequest request) {
@@ -19,7 +16,7 @@ public class Oauth2Util {
         }
         //取出头信息
         String authorization = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(authorization) || authorization.indexOf("Bearer") < 0) {
+        if (StringUtils.isEmpty(authorization) || !authorization.contains("Bearer")) {
             return null;
         }
         //从Bearer 后边开始取出token
@@ -34,6 +31,7 @@ public class Oauth2Util {
             map = JSON.parseObject(claims, Map.class);
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
         return map;
     }

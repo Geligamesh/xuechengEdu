@@ -15,5 +15,6 @@
         FROM
             course_base b
             LEFT JOIN course_pic p ON b.id = p.courseid
+            where company_id = #{companyId}
     </select>
 </mapper>

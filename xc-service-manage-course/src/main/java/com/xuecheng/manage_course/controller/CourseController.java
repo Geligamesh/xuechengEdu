@@ -7,8 +7,12 @@ import com.xuecheng.framework.domain.course.ext.TeachplanNode;
 import com.xuecheng.framework.domain.course.request.CourseListRequest;
 import com.xuecheng.framework.domain.course.response.AddCourseResult;
 import com.xuecheng.framework.domain.course.response.CoursePublishResult;
+import com.xuecheng.framework.exception.ExceptionCast;
+import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.framework.model.response.QueryResponseResult;
 import com.xuecheng.framework.model.response.ResponseResult;
+import com.xuecheng.framework.utils.XcOauth2Util;
+import com.xuecheng.framework.web.BaseController;
 import com.xuecheng.manage_course.service.CourseMarketService;
 import com.xuecheng.manage_course.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("course")
-public class CourseController implements CourseControllerApi {
+public class CourseController extends BaseController implements CourseControllerApi{
 
     @Autowired
     private CourseService courseService;
@@ -45,7 +49,16 @@ public class CourseController implements CourseControllerApi {
     public QueryResponseResult findCourseList(@PathVariable("page") int page,
                                               @PathVariable("size") int size,
                                               CourseListRequest courseListRequest) {
-        return courseService.findCourseListPage(page, size,courseListRequest);
+
+        //获取当前用户的信息
+        XcOauth2Util xcOauth2Util = new XcOauth2Util();
+        XcOauth2Util.UserJwt userJwt = xcOauth2Util.getUserJwtFromHeader(request);
+        if (userJwt == null) {
+            ExceptionCast.cast(CommonCode.UNAUTHENTICATED);
+        }
+        String companyId = userJwt.getCompanyId();
+        //当前用户所属单位
+        return courseService.findCourseListPage(companyId,page, size,courseListRequest);
     }
 
     @Override

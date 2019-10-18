@@ -13,8 +13,9 @@ import java.util.Map;
 
 @Component
 public class CustomUserAuthenticationConverter extends DefaultUserAuthenticationConverter {
+
     @Autowired
-    UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 
     @Override
     public Map<String, ?> convertUserAuthentication(Authentication authentication) {
@@ -32,7 +33,7 @@ public class CustomUserAuthenticationConverter extends DefaultUserAuthentication
             userJwt = (UserJwt) userDetails;
         }
         response.put("name", userJwt.getName());
-        response.put("id", userJwt.getId());
+        response.put("userid", userJwt.getId());
         response.put("utype",userJwt.getUtype());
         response.put("userpic",userJwt.getUserpic());
         response.put("companyId",userJwt.getCompanyId());

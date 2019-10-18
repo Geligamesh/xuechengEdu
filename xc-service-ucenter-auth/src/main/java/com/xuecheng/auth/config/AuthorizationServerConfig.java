@@ -101,7 +101,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     }
     //授权服务器端点配置
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         /*Collection<TokenEnhancer> tokenEnhancers = applicationContext.getBeansOfType(TokenEnhancer.class).values();
         TokenEnhancerChain tokenEnhancerChain=new TokenEnhancerChain();
         tokenEnhancerChain.setTokenEnhancers(new ArrayList<>(tokenEnhancers));
@@ -127,7 +127,7 @@ class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     //授权服务器的安全配置
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
 //        oauthServer.checkTokenAccess("isAuthenticated()");//校验token需要认证通过，可采用http basic认证
         oauthServer.allowFormAuthenticationForClients()
                 .passwordEncoder(new BCryptPasswordEncoder())

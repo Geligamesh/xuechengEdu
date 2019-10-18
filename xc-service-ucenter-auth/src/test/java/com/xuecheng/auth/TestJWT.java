@@ -1,7 +1,6 @@
 package com.xuecheng.auth;
 
 import com.alibaba.fastjson.JSON;
-import org.hibernate.sql.Alias;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,9 +11,7 @@ import org.springframework.security.jwt.crypto.sign.RsaSigner;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.security.KeyPair;
-import java.security.PrivateKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +58,7 @@ public class TestJWT {
     public void testVerify() {
         String publicKey = "-----BEGIN PUBLIC KEY-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnASXh9oSvLRLxk901HANYM6KcYMzX8vFPnH/To2R+SrUVw1O9rEX6m1+rIaMzrEKPm12qPjVq3HMXDbRdUaJEXsB7NgGrAhepYAdJnYMizdltLdGsbfyjITUCOvzZ/QgM1M4INPMD+Ce859xse06jnOkCUzinZmasxrmgNV3Db1GtpyHIiGVUY0lSO1Frr9m5dpemylaT0BV3UwTQWVW9ljm6yR3dBncOdDENumT5tGbaDVyClV0FEB1XdSKd7VjiDCDbUAUbDTG1fm3K9sx7kO1uMGElbXLgMfboJ963HEJcU01km7BmFntqI5liyKheX+HBUCD4zbYNPw236U+7QIDAQAB-----END PUBLIC KEY-----";
         //jwt令牌
-        String jwtString = "";
+        String jwtString = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb21wYW55SWQiOiIxIiwidXNlcnBpYyI6bnVsbCwidXNlcl9uYW1lIjoiaXRjYXN0Iiwic2NvcGUiOlsiYXBwIl0sIm5hbWUiOiJ0ZXN0MDIiLCJ1dHlwZSI6IjEwMTAwMiIsImV4cCI6MTU3MTQyMjU1MSwidXNlcmlkIjoiNDkiLCJhdXRob3JpdGllcyI6WyJ4Y190ZWFjaG1hbmFnZXJfY291cnNlX2Jhc2UiLCJ4Y190ZWFjaG1hbmFnZXJfY291cnNlX2RlbCIsInhjX3RlYWNobWFuYWdlcl9jb3Vyc2VfbGlzdCIsInhjX3RlYWNobWFuYWdlcl9jb3Vyc2VfcGxhbiIsInhjX3RlYWNobWFuYWdlcl9jb3Vyc2UiLCJjb3Vyc2VfZmluZF9saXN0IiwieGNfdGVhY2htYW5hZ2VyIiwieGNfdGVhY2htYW5hZ2VyX2NvdXJzZV9tYXJrZXQiLCJ4Y190ZWFjaG1hbmFnZXJfY291cnNlX3B1Ymxpc2giLCJjb3Vyc2VfZmluZF9waWMiLCJ4Y190ZWFjaG1hbmFnZXJfY291cnNlX2FkZCJdLCJqdGkiOiIwM2JkMzUzYi02OGVmLTQyYTEtYWIxNi1lMzI4NTllZGY0ZmMiLCJjbGllbnRfaWQiOiJYY1dlYkFwcCJ9.Cl_qqTT9fEQHcS8Xcu6U7ePMeKRuBgHufDIkiFSWHyunhSel4S71XAzrlAr8Q21mhq76QDQks_1M5kN05HPdiLFrfCf696WHHzLtW6bCBY-YahidWOc2noReXoLOm_aXJVTQ_ckknj_5qN3ovVwIDxegyBIbrCjLnSv5xWDplvKDQuuhq4qhhFuMhwyso6qFB7zpD34T4c8sLux2LFJUzWsn5ysbdt7-dsOEiTUvoBnUB7ijaKtyb02xpob98shKHJVpJWQ37zsQScsCFRPkVL9bTqOpZNHl9ykoquRnJPLCI3ay0iKl9yh6cdKubrNoMApAQe2kLsMHhUBZhbvNog";
         //校验jwt令牌
         Jwt jwt = JwtHelper.decodeAndVerify(jwtString, new RsaVerifier(publicKey));
         String jwtClaims = jwt.getClaims();
