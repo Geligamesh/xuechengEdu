@@ -3,14 +3,10 @@ package com.xuecheng.framework.domain.learning;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * Created by admin on 2018/2/10.
- */
 @Data
 @ToString
 @Entity

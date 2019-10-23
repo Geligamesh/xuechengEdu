@@ -1,14 +1,14 @@
 package com.xuecheng.order.mq;
 
 import com.xuecheng.framework.domain.task.XcTask;
-import com.xuecheng.order.dao.XcTaskRepository;
+import com.xuecheng.order.config.RabbitMQConfig;
 import com.xuecheng.order.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -21,7 +21,7 @@ public class ChooseCourseTask {
     @Autowired
     private TaskService taskService;
 
-    @Scheduled(cron = "0/60 * * * * *")
+    @Scheduled(cron = "0/10 * * * * *")
     //定时发送加选课任务
     public void sendChooseCourseTask() {
         //得到一分钟之前的消息列表
@@ -34,13 +34,15 @@ public class ChooseCourseTask {
         //调用service发布消息，将添加选课的任务发送给mq
         // System.out.println(taskList);
         for (XcTask xcTask : taskList) {
-            //要发送的交换机
-            String mqExchange = xcTask.getMqExchange();
-            //发送消息要携带的routingKey
-            String mqRoutingkey = xcTask.getMqRoutingkey();
-            //发送消息
-            taskService.publish(xcTask, mqExchange, mqRoutingkey);
-            log.info("send choose course task id:{}",xcTask.getId());
+            if (taskService.getTask(xcTask.getId(), xcTask.getVersion()) > 0) {
+                //要发送的交换机
+                String mqExchange = xcTask.getMqExchange();
+                //发送消息要携带的routingKey
+                String mqRoutingkey = xcTask.getMqRoutingkey();
+                //发送消息
+                taskService.publish(xcTask, mqExchange, mqRoutingkey);
+                log.info("send choose course task id:{}",xcTask.getId());
+            }
         }
     }
 
@@ -66,6 +68,13 @@ public class ChooseCourseTask {
             e.printStackTrace();
         }
         log.info("======================测试定时任务2结束======================");
+    }
+
+    @RabbitListener(queues = {RabbitMQConfig.XC_LEARNING_FINISHADDCHOOSECOURSE})
+    public void receiveFinishChooseCourseTask(XcTask xcTask) {
+        if (xcTask != null && StringUtils.isNotEmpty(xcTask.getId())) {
+            taskService.finishTask(xcTask.getId());
+        }
     }
 
 

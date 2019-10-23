@@ -19,4 +19,8 @@ public interface XcTaskRepository extends JpaRepository<XcTask,String> {
     @Modifying
     @Query("update XcTask t set t.updateTime = :updateTime where t.id = :id")
     int updateTaskTime(@Param("id") String id,@Param("updateTime") Date updateTime);
+
+    @Modifying
+    @Query("update XcTask t set t.version = :version + 1 where t.id = :id and t.version = :version")
+    int updateTaskVersion(@Param("id") String id,@Param("version") int version);
 }
