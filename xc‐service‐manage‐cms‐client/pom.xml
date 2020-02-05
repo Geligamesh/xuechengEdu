@@ -13,6 +13,7 @@
     <artifactId>xc‐service‐manage‐cms‐client</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.xuecheng</groupId>
             <artifactId>xc-framework-model</artifactId>

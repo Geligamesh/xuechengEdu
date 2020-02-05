@@ -3,11 +3,13 @@ package com.xuecheng;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeoutException;
 
 public class Consumer01 {
 
-    private static final String QUEUE = "helloWorld";
+    private static final String QUEUE1 = "helloWorld1";
+    private static final String QUEUE2 = "helloWorld2";
 
     public static void main(String[] args) throws IOException, TimeoutException {
         //通过连接工厂创建新的连接和mq建立连接
@@ -35,7 +37,8 @@ public class Consumer01 {
          * 4、autoDelete 自动删除，队列不再使用时是否自动删除此队列，如果将此参数和exclusive参数设置为true就可以实现临时队列（队列不用了就自动删除）
          * 5、arguments 参数，可以设置一个队列的扩展参数，比如：可设置存活时间
          */
-        channel.queueDeclare(QUEUE, true, false, false, null);
+        channel.queueDeclare(QUEUE1, true, false, false, null);
+        channel.queueDeclare(QUEUE2, true, false, false, null);
         //实现消费方法
         DefaultConsumer defaultConsumer = new DefaultConsumer(channel) {
             /**
@@ -54,7 +57,7 @@ public class Consumer01 {
                 //消息id，mq在channel中用来标识消息的id，可用于确认消息已接收
                 long deliveryTag = envelope.getDeliveryTag();
                 //消息内容
-                String message = new String(body,"utf-8");
+                String message = new String(body, StandardCharsets.UTF_8);
                 // System.out.println("exchange:" + exchange);
                 // System.out.println("deliveryTag:" + deliveryTag);
                 System.out.println("receive message:" + message);
@@ -68,6 +71,7 @@ public class Consumer01 {
          * 2、autoAck 自动回复，当消费者接收到消息后要告诉mq消息已接收，如果将此参数设置为tru表示会自动回复mq，如果设置为false要通过编程实现回复
          * 3、callback，消费方法，当消费者接收到消息要执行的方法
          */
-        channel.basicConsume(QUEUE, true, "Geligamesh",defaultConsumer);
+        channel.basicConsume(QUEUE1, true, "Geligamesh1",defaultConsumer);
+        channel.basicConsume(QUEUE2, true, "Geligamesh2",defaultConsumer);
     }
 }

@@ -9,7 +9,8 @@ import java.util.concurrent.TimeoutException;
 
 public class Product01 {
 
-    private static final String QUEUE = "helloWorld";
+    private static final String QUEUE1 = "helloWorld1";
+    private static final String QUEUE2 = "helloWorld2";
 
     public static void main(String[] args) {
         //通过连接工厂创建新的连接和mq建立连接
@@ -36,7 +37,8 @@ public class Product01 {
              * 4、autoDelete 自动删除，队列不再使用时是否自动删除此队列，如果将此参数和exclusive参数设置为true就可以实现临时队列（队列不用了就自动删除）
              * 5、arguments 参数，可以设置一个队列的扩展参数，比如：可设置存活时间
              */
-            channel.queueDeclare(QUEUE, true, false, false, null);
+            channel.queueDeclare(QUEUE1, true, false, false, null);
+            channel.queueDeclare(QUEUE2, true, false, false, null);
             /**
              * 参数明细：
              * 1、exchange，交换机，如果不指定将使用mq的默认交换机（设置为""）
@@ -45,19 +47,19 @@ public class Product01 {
              * 4、body，消息内容
              */
             //消息内容
-            String message = "hello world Geligamesh";
+            String message1 = "hello world Geligamesh1";
+            String message2 = "hello world Geligamesh2";
             for (int i = 0; i < 10; i++) {
-                channel.basicPublish("",QUEUE,null,message.getBytes());
+                channel.basicPublish("",QUEUE1,null,message1.getBytes());
+                channel.basicPublish("",QUEUE2,null,message2.getBytes());
             }
-            System.out.println("send to mq "+message);
+            System.out.println("send to mq "+message1 + "" + message2);
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
             try {
                 channel.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (TimeoutException e) {
+            } catch (IOException | TimeoutException e) {
                 e.printStackTrace();
             }
             try {
