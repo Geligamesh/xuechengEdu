@@ -1,5 +1,4 @@
 学成在线服务端基于Spring Boot构建，采用Spring Cloud微服务框架。
-
 持久层：MySQL、MongoDB、Redis、ElasticSearch
 数据访问层：使用Spring Data JPA 、Mybatis、Spring Data Mongodb等
 业务层：Spring IOC、Aop事务控制、Spring Task任务调度、Feign、Ribbon、Spring AMQP、Spring Data Redis
@@ -77,32 +76,32 @@ hosts文件的配置（windows系统下）
 
 ![](https://my-images-bed.oss-cn-hangzhou.aliyuncs.com/images/20200307194700.png)
 
-### 1.CMS页面管理系统核心功能
+### 一.CMS页面管理系统核心功能
 
-1.  CMS页面信息的增删改查
+1. ####  CMS页面信息的增删改查
 
-2.  页面静态化预览
+2. ####  页面静态化预览
 
-   2.1 为什么要进行页面管理？  
+   ##### 2.1 为什么要进行页面管理？  
 
      本项目cms系统的功能就是根据运营需要，对门户等子系统的部分页面进行管理，从而实现快速根据用户需求修改
    页面内容并上线的需求。  
 
-   2.2   如何修改页面的内容？  
+   ##### 2.2   如何修改页面的内容？  
 
      在开发中修改页面内容是需要人工编写html及JS文件，CMS系统是通过程序自动化的对页面内容进行修改，通过
    页面静态化技术生成html页面。  
 
-   2.3   如何对页面进行静态化？  
+   ##### 2.3   如何对页面进行静态化？  
 
      一个页面等于模板加数据，在添加页面的时候我们选择了页面的模板。
    页面静态化就是将页面模板和数据通过技术手段将二者合二为一，生成一个html网页文件  ，并将文件存放到由nginx部署的门户页面中。
 
-   2.4 页面静态化及页面发布流程图如下：  
+   ##### 2.4 页面静态化及页面发布流程图如下：  
 
    <img src="https://my-images-bed.oss-cn-hangzhou.aliyuncs.com/images/20200307194026.png"/>
 
-3. 页面发布到门户页面
+3. #### 页面发布到门户页面
 
    ![](https://my-images-bed.oss-cn-hangzhou.aliyuncs.com/images/20200307223454.png)
 
