@@ -10,6 +10,7 @@ public class RabbitmqConfig {
 
     //交换机的名称
     public static final String EX_ROUTING_CMS_POSTPAGE= "ex_routing_cms_postpage";
+
     /**
      * 交换机配置使用direct类型
      * @return the exchange

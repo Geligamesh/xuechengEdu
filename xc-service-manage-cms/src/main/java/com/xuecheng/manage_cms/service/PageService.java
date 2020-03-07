@@ -26,7 +26,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -39,10 +38,10 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -102,7 +101,6 @@ public class PageService {
 
         //设置自定义查询
         Example<CmsPage> example = Example.of(cmsPage, exampleMatcher);
-
         if(page <= 0) {
             page = 1;
         }
@@ -116,8 +114,7 @@ public class PageService {
         QueryResult queryResult = new QueryResult();
         queryResult.setList(all.getContent());
         queryResult.setTotal(all.getTotalElements());
-        QueryResponseResult queryResponseResult = new QueryResponseResult(CommonCode.SUCCESS,queryResult);
-        return queryResponseResult;
+        return new QueryResponseResult(CommonCode.SUCCESS,queryResult);
     }
 
     //新增页面
@@ -145,11 +142,7 @@ public class PageService {
     //根据页面id查询页面
     public CmsPage getById(String id) {
         Optional<CmsPage> optional = cmsPageRepository.findById(id);
-        if (optional.isPresent()) {
-            CmsPage cmsPage = optional.get();
-            return cmsPage;
-        }
-        return null;
+        return optional.orElse(null);
     }
 
     //修改页面
@@ -264,7 +257,7 @@ public class PageService {
             //从流中取数据
             String content;
             try {
-                content = IOUtils.toString(gridFsResource.getInputStream(), "utf-8");
+                content = IOUtils.toString(gridFsResource.getInputStream(), StandardCharsets.UTF_8);
                 return content;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -284,7 +277,7 @@ public class PageService {
             //dataUrl不存在
             ExceptionCast.cast(CmsCode.CMS_GENERATEHTML_DATAURLISNULL);
         }
-
+        // 获得全局的request对象
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String authorization = request.getHeader("Authorization");
         System.out.println(authorization);

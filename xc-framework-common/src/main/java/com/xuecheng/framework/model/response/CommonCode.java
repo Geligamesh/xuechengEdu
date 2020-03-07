@@ -34,6 +34,7 @@ public enum CommonCode implements ResultCode{
     public boolean success() {
         return success;
     }
+
     @Override
     public int code() {
         return code;

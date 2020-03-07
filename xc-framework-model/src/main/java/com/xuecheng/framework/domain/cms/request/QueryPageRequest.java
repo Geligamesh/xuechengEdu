@@ -2,10 +2,7 @@ package com.xuecheng.framework.domain.cms.request;
 
 import com.xuecheng.framework.model.response.QueryResult;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Data
 @AllArgsConstructor

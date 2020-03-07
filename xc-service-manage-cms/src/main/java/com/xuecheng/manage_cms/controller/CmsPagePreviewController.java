@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Controller
 @Api(value = "cms配置预览接口",description = "cms配置预览接口,页面模板和数据模型静态化之后的预览展示")
@@ -25,7 +26,7 @@ public class CmsPagePreviewController extends BaseController {
             try {
                 ServletOutputStream outputStream = response.getOutputStream();
                 response.setHeader("Content-type","text/html;charset=utf-8");
-                outputStream.write(pageHtml.getBytes("utf-8"));
+                outputStream.write(pageHtml.getBytes(StandardCharsets.UTF_8));
             } catch (IOException e) {
                 e.printStackTrace();
             }

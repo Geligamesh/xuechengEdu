@@ -36,6 +36,7 @@ public class RabbitmqConfig {
     public Exchange EXCHANGE_TOPICS_INFORM() {
         return ExchangeBuilder.directExchange(EX_ROUTING_CMS_POSTPAGE).durable(true).build();
     }
+
     //声明队列
     @Bean(name = QUEUE_CMS_POSTPAGE)
     public Queue QUEUE_CMS_POSTPAGE() {
