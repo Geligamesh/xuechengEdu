@@ -20,6 +20,8 @@
 >
 > xc-ui-pc-sysmanage      系统管理前端工程
 >
+> xc-ui-pc-teach               课程管理前端工程
+>
 > 
 
 
@@ -40,7 +42,11 @@
 >
 >xc‐service‐manage‐cms‐client     CMS页面客户端系统(端口31000)
 >
+>xc-service-manage-course            课程管理系统(端口31200)
 >
+>xc-service-base-filesystem            文件上传微服务(22100)
+>
+>xc-govern-center                           注册中心(50101)
 
 ![工程流程图](assets/20200307154408.png)
 
@@ -50,6 +56,42 @@ Nginx的配置信息
 #cms页面预览
 upstream cms_server_pool{
 	server 127.0.0.1:31001 weight=10;
+}
+
+#静态资源服务
+upstream static_server_pool{
+    server 127.0.0.1:91 weight=10;
+}
+
+#学成网静态资源
+server {
+    listen 91;
+    server_name localhost;
+
+    #公司信息
+    location /static/company/ {
+        alias E:/mySoftware/xcEdu/xuecheng/static/company/;
+    }
+
+    #老师信息
+    location /static/teacher/ {
+        alias E:/mySoftware/xcEdu/xuecheng/static/teacher/;
+    }
+
+    #统计信息
+    location /static/stat/ {
+        alias E:/mySoftware/xcEdu/xuecheng/static/stat/;
+    }
+
+    #课程信息
+    location /course/detail/ {
+        alias E:/mySoftware/xcEdu/xuecheng/static/course/detail/;
+    }
+
+    #分类信息
+    location /static/category/ {
+        alias E:/mySoftware/xcEdu/xuecheng/static/category/;
+    }
 }
 
 # 门户信息配置
@@ -72,6 +114,72 @@ server{
 	    proxy_pass http://cms_server_pool/cms/preview/;
     }
 }
+
+#学成网静态资源
+server {
+    listen 91;
+    server_name localhost;
+
+    #公司信息
+    location /static/company/ {
+        alias E:/mySoftware/xcEdu/xuecheng/static/company/;
+    }
+
+    #老师信息
+    location /static/teacher/ {
+        alias E:/mySoftware/xcEdu/xuecheng/static/teacher/;
+    }
+
+    #统计信息
+    location /static/stat/ {
+        alias E:/mySoftware/xcEdu/xuecheng/static/stat/;
+    }
+
+    #课程信息
+    location /course/detail/ {
+        alias E:/mySoftware/xcEdu/xuecheng/static/course/detail/;
+    }
+
+    #分类信息
+    location /static/category/ {
+        alias E:/mySoftware/xcEdu/xuecheng/static/category/;
+    }
+    
+    location /static/company/ {
+        proxy_pass http://static_server_pool;
+    }
+    location /static/teacher/ {
+        proxy_pass http://static_server_pool;
+    }
+    location /static/stat/ {
+        proxy_pass http://static_server_pool;
+    }
+    location /course/detail/ {
+        proxy_pass http://static_server_pool;
+    }
+
+    location /static/img/ {
+        alias E:/mySoftware/xcEdu/xc-ui-pc-static-portal/img/;
+    }
+    location /static/css/ {
+        alias E:/mySoftware/xcEdu/xc-ui-pc-static-portal/css/;
+    }
+    location /static/js/ {
+        alias E:/mySoftware/xcEdu/xc-ui-pc-static-portal/js/;
+    }
+    location /static/plugins/ {
+        alias E:/mySoftware/xcEdu/xc-ui-pc-static-portal/plugins/;
+        add_header Access‐Control‐Allow‐Origin http://ucenter.xuecheng.com;
+        add_header Access‐Control‐Allow‐Credentials true;
+        add_header Access‐Control‐Allow‐Methods GET;
+    }
+    location /plugins/ {
+        alias E:/mySoftware/xcEdu/xc-ui-pc-static-portal/plugins/;
+        add_header Access‐Control‐Allow‐Origin http://ucenter.xuecheng.com;
+        add_header Access‐Control‐Allow‐Credentials true;
+        add_header Access‐Control‐Allow‐Methods GET;
+    }
+}
 ```
 
 hosts文件的配置（windows系统下）
@@ -88,7 +196,7 @@ hosts文件的配置（windows系统下）
 
 ![](https://my-images-bed.oss-cn-hangzhou.aliyuncs.com/images/20200307194700.png)
 
-### 一.CMS页面管理系统核心功能
+### 一.CMS页面管理系统核心功能：
 
 1. ####  CMS页面信息的增删改查
 
@@ -115,6 +223,16 @@ hosts文件的配置（windows系统下）
 
 3. #### 页面发布到门户页面
 
+   ##### 3.1 用户进入教学管理中心，进入某个课程的管理界面
+
+   ##### 3.2 点击课程发布，前端请求到课程管理服务
+
+   ##### 3.3 课程管理服务远程调用CMS生成课程发布页面，CMS将课程详情页面发布到服务器
+
+   ##### 3.4 课程管理服务修改课程发布状态为 “已发布”，并向前端返回发布成功
+
+   ##### 3.5 用户在教学管理中心点击“课程详情页面”链接，查看课程详情页面内容  
+
    ![](https://my-images-bed.oss-cn-hangzhou.aliyuncs.com/images/20200307223454.png)
 
 ![](https://my-images-bed.oss-cn-hangzhou.aliyuncs.com/images/20200307192713.png)
@@ -133,5 +251,36 @@ hosts文件的配置（windows系统下）
 
 ![](https://my-images-bed.oss-cn-hangzhou.aliyuncs.com/images/20200307224637.png)
 
+### 二.CMS课程管理系统核心功能：
 
+1. 分类管理
 
+2. 新增课程
+
+3. 修改课程
+
+4. 预览课程
+
+5. 发布课程
+
+6. 上传课程图片
+
+7. 课程预览
+
+   ```
+   1、用户进入课程管理页面，点击课程预览，请求到课程管理服务
+   2、课程管理服务远程调用cms添加页面接口向cms添加课程详情页面
+   3、课程管理服务得到cms返回课程详情页面id，并拼接生成课程预览Url
+   4、课程管理服务将课程预览Url给前端返回
+   5、用户在前端页面请求课程预览Url，打开新窗口显示课程详情内容
+   ```
+
+   
+
+![](https://my-images-bed.oss-cn-hangzhou.aliyuncs.com/images/20200308202527.png)
+
+1. 课程发布
+
+![](https://my-images-bed.oss-cn-hangzhou.aliyuncs.com/images/20200308152116.png)
+
+![](https://my-images-bed.oss-cn-hangzhou.aliyuncs.com/images/20200308194652.png)

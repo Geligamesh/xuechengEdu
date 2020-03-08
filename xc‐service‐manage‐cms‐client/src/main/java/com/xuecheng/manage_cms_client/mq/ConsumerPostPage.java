@@ -12,6 +12,8 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -28,7 +30,7 @@ public class ConsumerPostPage {
 
     @RabbitListener(queues = {"${xuecheng.mq.queue}"})
     @RabbitHandler
-    public void postPage(String msg, Message message, Channel channel){
+    public void postPage(String msg, Message message, Channel channel) throws IOException {
         //解析消息
         Map map = JSON.parseObject(msg, Map.class);
         //得到消息中的页面id

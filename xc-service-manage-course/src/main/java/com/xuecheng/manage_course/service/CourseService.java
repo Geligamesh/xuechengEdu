@@ -71,10 +71,11 @@ public class CourseService {
     @Value("${course-publish.previewUrl}")
     private String previewUrl;
 
-
     public TeachplanNode findTeachplanList(String courseId) {
         return teachplanMapper.selectList(courseId);
     }
+
+
     @Transactional(propagation = Propagation.REQUIRED)
     public ResponseResult addTeachplan(Teachplan teachplan) {
         if (teachplan == null || StringUtils.isEmpty(teachplan.getCourseid()) ||

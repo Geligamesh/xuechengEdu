@@ -16,7 +16,6 @@ import com.xuecheng.framework.web.BaseController;
 import com.xuecheng.manage_course.service.CourseMarketService;
 import com.xuecheng.manage_course.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
