@@ -5,6 +5,8 @@ import com.mongodb.client.gridfs.GridFSDownloadStream;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.xuecheng.framework.domain.cms.CmsPage;
 import com.xuecheng.framework.domain.cms.CmsSite;
+import com.xuecheng.framework.exception.ExceptionCast;
+import com.xuecheng.framework.model.response.CommonCode;
 import com.xuecheng.manage_cms_client.dao.CmsPageRepository;
 import com.xuecheng.manage_cms_client.dao.CmsSiteRepository;
 import org.apache.commons.io.IOUtils;
@@ -37,6 +39,9 @@ public class PageService {
     public void savePageToServerPath(String pageId) {
         //根据pageId查询cmsPage
         CmsPage cmsPage = this.findCmsPageById(pageId);
+        if (cmsPage == null) {
+            ExceptionCast.cast(CommonCode.INVAILD_PARAM);
+        }
         //得到html的文件id，从cmsPage中获取htmlFileId内容
         String htmlFileId = cmsPage.getHtmlFileId();
 
@@ -65,7 +70,9 @@ public class PageService {
         }finally {
             try {
                 inputStream.close();
-                outputStream.close();
+                if (outputStream != null) {
+                    outputStream.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
