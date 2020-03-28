@@ -10,7 +10,7 @@
 | 业务层     | Spring IOC、Aop事务控制、Spring Task任务调度、Feign、Ribbon、Spring AMQP、Spring Data Redis |
 | 控制层     | Spring MVC、FastJSON、RestTemplate、Spring Security Oauth2+JWT等 |
 | 微服务治理 | Eureka、Zuul、Hystrix、Spring Cloud Config等                 |
-| 持久层     | **MySQL、MongoDB、Redis、ElasticSearch**                     |
+| 持久层     | MySQL、MongoDB、Redis、ElasticSearch                     |
 
 
 
