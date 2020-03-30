@@ -22,7 +22,7 @@ eureka:
     serviceUrl: #Eureka客户端与Eureka服务端进行交互的地址，多个中间用逗号分隔
       defaultZone: ${EUREKA_SERVER:http://localhost:50101/eureka/}
   instance:
-    prefer-ip-address:  true  #将自己的ip地址注册到Eureka服务中
+    prefer-ip-address: true  #将自己的ip地址注册到Eureka服务中
     ip-address: 127.0.0.1
     instance-id: ${spring.application.name}:${server.port} #指定实例id
 ribbon:
@@ -54,7 +54,7 @@ zuul:
       sensitiveHeaders:
     manage-sys:
       path: /sys/**
-      serviceId: xc-service-manage-cms
+      serviceId: xc-service-manage-course
       strip-prefix: false
       sensitiveHeaders:
     service-ucenter:
@@ -65,6 +65,11 @@ zuul:
     xc-service-manage-order:
       path: /order/**
       serviceId: xc-service-manage-order
+      sensitiveHeaders:
+      strip-prefix: false
+    xc-service-base-filesystem:
+      path: /filesystem/**
+      serviceId: xc-service-base-filesystem
       sensitiveHeaders:
       strip-prefix: false
 

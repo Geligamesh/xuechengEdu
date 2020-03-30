@@ -53,7 +53,7 @@ public class LoginFilter extends ZuulFilter {
         String jwt = authService.getJwtFromHeader(request);
         if (StringUtils.isEmpty(jwt)) {
             //拒绝访问
-            access_denied();
+            // access_denied();
             return null;
         }
         //从redis中查询用身份令牌有效期
